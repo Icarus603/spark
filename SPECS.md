@@ -848,15 +848,15 @@ This CLI specification provides a comprehensive, user-centered interface that tr
 **Deliverable**: Working `spark` (auto-init), `spark learn`, `spark status` commands with simple pattern detection
 
 **Implementation Tasks**:
-- [ ] **CLI Framework**: Basic command structure using CUA patterns (libs/python/spark/cli/)
+- [x] **CLI Framework**: Basic command structure using CUA patterns (libs/python/spark/cli/) ✅
   - Core command parsing and routing (`cli/main.py`, `cli/commands/`)
   - Basic configuration management (`core/config.py`)
   - Initial terminal formatting using `rich` library
-- [ ] **Git Pattern Detection**: Simple git analysis for initial learning (libs/python/spark/learning/)
+- [x] **Git Pattern Detection**: Simple git analysis for initial learning (libs/python/spark/learning/) ✅
   - Basic commit pattern analysis (`learning/git_patterns.py`)
   - Simple language detection from file extensions  
   - Confidence scoring based on commit frequency and recency
-- [ ] **Local Storage**: SQLite-based pattern storage (libs/python/spark/storage/)
+- [x] **Local Storage**: SQLite-based pattern storage (libs/python/spark/storage/) ✅
   - Basic pattern database schema (`storage/patterns.py`)
   - Configuration persistence (`storage/config.py`)
   - Data migration foundation (`storage/migration.py`)
@@ -871,18 +871,18 @@ This CLI specification provides a comprehensive, user-centered interface that tr
 **Deliverable**: Sophisticated pattern detection worthy of autonomous exploration
 
 **Implementation Tasks**:
-- [ ] **Multi-Dimensional Pattern Analysis** (libs/python/spark/learning/)
+- [x] **Multi-Dimensional Pattern Analysis** (libs/python/spark/learning/) ✅
   - Code style detection using AST parsing (`learning/style_analyzer.py`)
   - Development rhythm analysis (work hours, session patterns)
-  - Technology preference mapping (`learning/preferences.py`)
-  - Pattern confidence refinement (`learning/confidence.py`)
-- [ ] **File System Integration** (libs/python/spark/learning/)
+  - Technology preference mapping (`learning/preference_mapper.py`)
+  - Pattern confidence refinement (`learning/confidence_scorer.py`)
+- [x] **File System Integration** (libs/python/spark/learning/) ✅
   - Real-time file change monitoring (inotify/fsevents)
   - Import pattern analysis and dependency tracking
   - Project structure analysis and architectural preferences
-- [ ] **Rich Status Interface** (libs/python/spark/cli/)
+- [x] **Rich Status Interface** (libs/python/spark/cli/) ✅
   - Detailed pattern breakdown with confidence scores
-  - Interactive status dashboard (`cli/dashboard.py`)
+  - Interactive status dashboard (`cli/terminal.py`)
   - Pattern export and analysis tools
 
 **Success Criteria**:
@@ -1142,19 +1142,19 @@ This section details the technical architecture decisions for Spark, balancing t
 - **Async/Await**: Full async/await support for non-blocking learning and exploration
 - **Memory Management**: Efficient memory usage for long-running background processes
 
-#### Dependency Management: uv (Ultra-fast Python Package Manager)
+#### Dependency Management: PDM (Python Dependency Manager)
 **Decision Rationale**:
-- **Extreme Performance**: 10-100x faster than pip, perfect for development iterations
-- **Workspace Management**: Native workspace support for monorepo structure
-- **Lock File Reliability**: Deterministic dependency resolution with uv.lock
+- **CUA Foundation**: Inherits from existing CUA monorepo using PDM backend
+- **Workspace Management**: Native workspace support for monorepo structure with PDM
+- **Lock File Reliability**: Deterministic dependency resolution with pdm.lock
 - **PEP Standards**: Full compliance with PEP 517/518/621 for modern Python packaging
-- **Developer Experience**: Seamless integration with existing development workflows
+- **Editable Installs**: Efficient editable package management for development
 
 **Configuration Strategy**:
-- **Workspace Dependencies**: Core Spark dependencies managed at workspace level via uv
-- **Fast Installation**: `uv add` for dependency management, `uv sync` for environment setup
-- **Lock File Management**: Single uv.lock file for deterministic builds
-- **Virtual Environment**: `uv venv` for isolated development environments
+- **Workspace Dependencies**: Core Spark dependencies managed at workspace level via PDM
+- **Fast Installation**: PDM for dependency management and workspace setup
+- **Lock File Management**: Single pdm.lock file for deterministic builds
+- **Development Dependencies**: Editable installations using file:// paths
 
 ### AI Integration Architecture
 
@@ -1391,13 +1391,13 @@ pytest tests/ --cov=spark             # Test coverage
 
 **Installation Strategy**:
 ```bash
-# Primary: Ultra-fast installation via uv
-uv add spark-ai                        # Fast installation via uv
-uv tool install spark-ai               # Global tool installation via uv
+# Primary: Installation via PDM (development)
+pdm install                           # Install all dependencies including Spark
+pdm run spark                         # Run Spark in development mode
 
-# Alternative: Traditional methods
-pip install spark-ai                   # PyPI distribution
-pipx install spark-ai                  # Isolated installation via pipx
+# Alternative: Traditional methods (when published)
+pip install spark-ai                  # PyPI distribution
+pipx install spark-ai                 # Isolated installation via pipx
 ```
 
 ### Performance & Scalability Architecture

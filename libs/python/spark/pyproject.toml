@@ -1,0 +1,15 @@
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[project]
+name = "spark-ai"
+version = "0.1.0"
+description = "Spark AI Coding Platform"
+dependencies = [
+    "rich>=13.0.0",
+    "tomli>=2.0.1",
+    "tomli-w>=1.0.0",
+    "watchdog>=6.0.0",
+]
+requires-python = ">=3.12"
