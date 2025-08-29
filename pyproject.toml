@@ -10,6 +10,8 @@ dependencies = [
     "tomli>=2.2.1",
     "tomli-w>=1.2.0",
     "watchdog>=6.0.0",
+    "litellm>=1.76.0",
+    "psutil>=7.0.0",
 ]
 description = "CUA (Computer Use Agent) mono-repo"
 license = { text = "MIT" }

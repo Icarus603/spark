@@ -16,7 +16,7 @@ from spark.cli.errors import handle_async_cli_error, SparkLearningError
 
 # Enhanced pattern analysis components
 from spark.learning.style_analyzer import MultiLanguageStyleAnalyzer
-from spark.learning.confidence_scorer import MultiDimensionalConfidenceScorer, PatternType
+from spark.learning.confidence_scorer import PatternConfidenceScorer, PatternType
 from spark.learning.file_monitor import FileSystemMonitor
 from spark.learning.preference_mapper import PreferenceMapper
 
@@ -37,7 +37,7 @@ class StatusCommand:
         
         # Initialize enhanced analyzers
         self.style_analyzer = MultiLanguageStyleAnalyzer()
-        self.confidence_scorer = MultiDimensionalConfidenceScorer()
+        self.confidence_scorer = PatternConfidenceScorer()
         self.preference_mapper = PreferenceMapper()
         self.file_monitor: Optional[FileSystemMonitor] = None
     

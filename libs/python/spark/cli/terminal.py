@@ -230,6 +230,17 @@ class SparkConsole:
             warning_text.append(details, style=self.theme.DIM)
         
         self.console.print(warning_text)
+
+    def print_info(self, message: str, details: Optional[str] = None) -> None:
+        """Print formatted informational message."""
+        info_text = Text.assemble(
+            (f"{self.theme.SPARK_ICON} ", self.theme.INFO),
+            (message, f"bold {self.theme.INFO}")
+        )
+        if details:
+            info_text.append("\n")
+            info_text.append(details, style=self.theme.DIM)
+        self.console.print(info_text)
     
     def print_success(self, message: str, details: Optional[str] = None) -> None:
         """Print formatted success message."""

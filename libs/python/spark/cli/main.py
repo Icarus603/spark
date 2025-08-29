@@ -18,20 +18,7 @@ from rich.text import Text
 from rich.table import Table
 from rich import print as rprint
 
-# Import command modules (will be implemented progressively)
-try:
-    from spark.cli.commands.learn import LearnCommand
-    from spark.cli.commands.status import StatusCommand
-    from spark.cli.commands.explore import ExploreCommand
-    from spark.cli.commands.morning import MorningCommand
-    from spark.cli.commands.show import ShowCommand
-except ImportError:
-    # Graceful fallback during development
-    LearnCommand = None
-    StatusCommand = None  
-    ExploreCommand = None
-    MorningCommand = None
-    ShowCommand = None
+# Defer command imports to setup for better resilience
 
 # Core Spark modules
 try:
@@ -57,18 +44,38 @@ class SparkCLI:
         self._setup_commands()
     
     def _setup_commands(self) -> None:
-        """Setup command registry with graceful fallback during development."""
-        # Main commands
-        if StatusCommand:
+        """Setup command registry with per-command import isolation."""
+        # Import each command independently so one failure doesn't block others
+        try:
+            from spark.cli.commands.status import StatusCommand  # type: ignore
             self.commands['status'] = StatusCommand()
-        if LearnCommand:
+        except Exception:
+            pass
+        try:
+            from spark.cli.commands.learn import LearnCommand  # type: ignore
             self.commands['learn'] = LearnCommand()
-        if ExploreCommand:
+        except Exception:
+            pass
+        try:
+            from spark.cli.commands.explore import ExploreCommand  # type: ignore
             self.commands['explore'] = ExploreCommand()
-        if MorningCommand:
+        except Exception:
+            pass
+        try:
+            from spark.cli.commands.morning import MorningCommand  # type: ignore
             self.commands['morning'] = MorningCommand()
-        if ShowCommand:
+        except Exception:
+            pass
+        try:
+            from spark.cli.commands.show import ShowCommand  # type: ignore
             self.commands['show'] = ShowCommand()
+        except Exception:
+            pass
+        try:
+            from spark.cli.commands.rate import RateCommand  # type: ignore
+            self.commands['rate'] = RateCommand()
+        except Exception:
+            pass
         
         # Add built-in commands
         self.commands['help'] = self._help_command
@@ -173,9 +180,10 @@ class SparkCLI:
             ("spark", "Show status and auto-initialize on first run", "✅"),
             ("spark learn", "Start/stop background learning from git and files", "🚧"),
             ("spark status", "Display learning progress and detected patterns", "🚧"),
-            ("spark explore", "Plan and schedule autonomous exploration", "⏳"),
+            ("spark explore", "Plan and schedule autonomous exploration", "🚧"),
             ("spark morning", "Browse overnight discoveries", "⏳"),
-            ("spark show", "Browse historical discoveries and patterns", "⏳"),
+            ("spark show", "Browse historical discoveries and patterns", "✅"),
+            ("spark rate", "Rate and provide feedback for discoveries", "✅"),
             ("spark help", "Show this help message", "✅"),
             ("spark version", "Show version information", "✅"),
         ]
